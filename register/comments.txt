@@ -1,0 +1,18 @@
+ 
+   {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "outputDocument",
+      "databaseName": "ToDoList",
+      "collectionName": "Items",
+      "createIfNotExists": false,
+      "connectionStringSetting": "quiplashdb_DOCUMENTDB"
+    }
+
+    def main(req: func.HttpRequest, outputDocument: func.Out[func.Document]) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+
+    username = req.params.get('username')
+    request_body = req.get_body()
+
+    outputDocument.set(func.Document.from_json(request_body))
