@@ -1,0 +1,39 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "type": "cosmosDBTrigger",
+      "name": "documents",
+      "direction": "in",
+      "leaseCollectionName": "register",
+      "connectionStringSetting": "CosmosDbConnectionString",
+      "databaseName": "quiplashDB",
+      "collectionName": "players",
+      "createLeaseCollectionIfNotExists": true
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "doc",
+      "databaseName": "quiplashDB",
+      "collectionName": "players",
+      "createIfNotExists": "true",
+      "connectionStringSetting": "CosmosDBConnectionString"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+     },
+     {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    }
+  ]
+}

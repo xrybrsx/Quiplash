@@ -12,6 +12,15 @@
       ]
     },
     {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "doc",
+      "databaseName": "quiplashDB",
+      "collectionName": "players",
+      "createIfNotExists": "true",
+      "connectionStringSetting": "CosmosDBConnectionString"
+    },
+    {
       "type": "http",
       "direction": "out",
       "name": "$return"
