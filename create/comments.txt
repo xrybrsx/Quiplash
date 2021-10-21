@@ -16,3 +16,25 @@
     request_body = req.get_body()
 
     outputDocument.set(func.Document.from_json(request_body))
+
+    
+# url = os.environ['https://quiplash-db.documents.azure.com:443/']
+# key = os.environ['VhRMquRsPTGLdGcGhSsDkqmebqPRqxWtdh0HodaToPz3tEPxh85rveN9O1Br0yPST1b7Fnv9hhnYcAaly5jDgg==']
+# client = CosmosClient(url, credential=key)
+# database_name = 'quiplashDB'
+# database = client.get_database_client(database_name)
+# container_name = 'players'
+# container = database.get_container_client(container_name)
+
+    # newdocs = func.DocumentList()
+        # newproduct_dict = {
+        #     "username": username,
+        #     "games_played": 0,
+        #     "total_score": 0
+        # }
+        # newdocs.append(func.Document.from_dict(newproduct_dict))
+        # doc.set(newdocs)
+        # id = uuid.uuid4()
+        # container.upsert_item({'id': id,
+        #                        'username': username
+        #                        })

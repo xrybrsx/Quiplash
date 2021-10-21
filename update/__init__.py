@@ -18,7 +18,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             username = req_body.get('username')
 
-    if ((len(username) > 4) and (len(username) < 16)):
+    if username:
         addPlayer(username)
         return func.HttpResponse(f"Hello, {username}. Your profile was created.")
     elif len(username) < 4:
