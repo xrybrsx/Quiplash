@@ -22,8 +22,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         players = []
 
         for items in container.query_items(
-                query='SELECT p.username FROM players p ORDER BY p.username ASC',
+                query='SELECT TOP {} p.username,p.games_played,p.total_score FROM players p ORDER BY p.username ASC'.format(
+                    top),
                 enable_cross_partition_query=True):
             players.append(items)
 
-    return func.HttpResponse(json.dumps(players[:int(top)]))
+    return func.HttpResponse(json.dumps(players))
