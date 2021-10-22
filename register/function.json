@@ -10,12 +10,13 @@
         "get",
         "post"
       ],
-      "route": "/player/update"
+      "route": "player/register"
     },
     {
       "type": "http",
       "direction": "out",
       "name": "$return"
-    }
+     }
+   
   ]
 }

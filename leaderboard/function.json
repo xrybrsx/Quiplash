@@ -9,7 +9,8 @@
       "methods": [
         "get",
         "post"
-      ]
+      ],
+      "route": "/player/leaderboard"
     },
     {
       "type": "http",
