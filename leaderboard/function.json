@@ -10,7 +10,7 @@
         "get",
         "post"
       ],
-      "route": "/player/leaderboard"
+      "route": "player/leaderboard"
     },
     {
       "type": "http",

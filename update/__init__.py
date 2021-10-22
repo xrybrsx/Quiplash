@@ -1,7 +1,7 @@
 import logging
 import json
 import azure.functions as func
-from client import connectToContainer
+from client import connectToContainer, userExists
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:

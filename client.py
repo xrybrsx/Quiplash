@@ -24,6 +24,20 @@ def addPlayer(username):
         "total_score": 0
     })
 
+
+def userExists(username):
+    player = []
+    container = connectToContainer('quiplashDB', 'players')
+    for item in container.query_items(
+            query='SELECT * FROM players p WHERE p.username="{}"'.format(
+                username),
+            enable_cross_partition_query=True):
+        player.append(item)
+    if len(player) > 0:
+        return True
+    else:
+        return False
+
 # def updatePlayer(username, add_games):
 #     container = connectToContainer('quiplashDB', 'players')
 
