@@ -7,7 +7,6 @@ from client import addPlayer, connectToContainer
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info(
         '----------------Python HTTP trigger function processed a request.----------------')
-    # logging.info("The JSON received {}".format(req.get_json()))
     username = req.params.get('username')
     password = req.params.get('password')
 
