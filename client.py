@@ -15,11 +15,12 @@ def connectToContainer(database_name, container_name):
     return container
 
 
-def addPlayer(username):
+def addPlayer(username, password):
     container = connectToContainer('quiplashDB', 'players')
 
     return container.upsert_item({
-        'username': username,
+        "username": username,
+        "password": password,
         "games_played": 0,
         "total_score": 0
     })
