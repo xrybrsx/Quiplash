@@ -1,7 +1,7 @@
 import logging
 import json
 import azure.functions as func
-from client import authorize, connectToContainer, update
+from client import authorize, connectToContainer, update_user
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -53,7 +53,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         json_msg = {"result": False, "msg": "wrong password"}
         return func.HttpResponse(json.dumps(json_msg))
     else:
-        update(username, add_score, add_games)
+        update_user(username, add_score, add_games)
         json_msg = {"result": True,
                     "msg": "OK"}
 

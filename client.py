@@ -49,7 +49,7 @@ def get_user(username):
     return player
 
 
-def update(username, add_games, add_score):
+def update_user(username, add_games, add_score):
     player = get_user(username)
     if len(player) > 0:
         tmp = json.dumps(player[0])
