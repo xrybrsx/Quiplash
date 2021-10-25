@@ -1,4 +1,5 @@
 from azure.cosmos import CosmosClient
+import json
 
 
 def connectToClient():
@@ -26,7 +27,18 @@ def addPlayer(username, password):
     })
 
 
-def userExists(username):
+def authorize(username, password):
+    player = get_user(username)
+    if len(player) > 0:
+        tmp = json.dumps(player[0])
+        a = json.loads(tmp)
+        if a["password"] == password:
+            return True
+    else:
+        return False
+
+
+def get_user(username):
     player = []
     container = connectToContainer('quiplashDB', 'players')
     for item in container.query_items(
@@ -34,6 +46,25 @@ def userExists(username):
                 username),
             enable_cross_partition_query=True):
         player.append(item)
+    return player
+
+
+def update(username, add_games, add_score):
+    player = get_user(username)
+    if len(player) > 0:
+        tmp = json.dumps(player[0])
+        a = json.loads(tmp)
+        a["agames_played"] = a["games_played"] + add_games
+        a["total_score"] = a["total_score"] + add_score
+        container = connectToContainer('quiplashDB', 'players')
+        container.upsert_item(a)
+        return True
+    else:
+        return False
+
+
+def userExists(username):
+    player = get_user(username)
     if len(player) > 0:
         return True
     else:

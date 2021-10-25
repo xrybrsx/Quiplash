@@ -1,7 +1,7 @@
 import logging
 import json
 import azure.functions as func
-from client import connectToContainer, userExists
+from client import authorize, connectToContainer, update
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -9,7 +9,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         '----------------Python HTTP trigger function processed a request.----------------')
     # logging.info("The JSON received {}".format(req.params.get()))
     username = req.params.get('username')
-    increment = int(req.params.get('add_to_games_played'))
+    add_games = req.params.get('add_to_games_played')
+    add_score = req.params.get('add_to_score')
+    password = req.params.get('password')
+
     player = []
 
     if (not username):
@@ -19,6 +22,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             pass
         else:
             username = req_body.get('username')
+    if not add_games:
+        add_games = 0
+    else:
+        add_games = int(add_games)
+    if not add_score:
+        add_score = 0
+    else:
+        add_score = int(add_score)
 
     if username:
         container = connectToContainer('quiplashDB', 'players')
@@ -30,21 +41,20 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             logging.info(item)
             player.append(item)
 
-    if (len(player) > 0) and (increment > 0):
-        tmp = json.dumps(player[0])
-        a = json.loads(tmp)
-        a["games_played"] = a["games_played"] + increment
-        query = container.upsert_item(a)
-        okMessage = {"result": True,
-                     "msg": "OK"}
-        return func.HttpResponse(json.dumps(okMessage))
-    elif ((len(player) <= 0)):
-        noSuchUser = {"result": False,
-                      "msg": "user does not exist"}
-        return func.HttpResponse(json.dumps(noSuchUser))
-    elif (increment < 0):
-        negativeGames = {"result": False,
-                         "msg": "Attempt to set negative score/games_played"}
-        return func.HttpResponse(json.dumps(negativeGames))
+    if ((len(player) <= 0)):
+        json_msg = {"result": False,
+                    "msg": "user does not exist"}
+        return func.HttpResponse(json.dumps(json_msg))
+    elif (int(add_games) < 0) or (int(add_score) < 0):
+        json_msg = {"result": False,
+                    "msg": "Attempt to set negative score/games_played"}
+        return func.HttpResponse(json.dumps(json_msg))
+    elif not authorize(username, password):
+        json_msg = {"result": False, "msg": "wrong password"}
+        return func.HttpResponse(json.dumps(json_msg))
+    else:
+        update(username, add_score, add_games)
+        json_msg = {"result": True,
+                    "msg": "OK"}
 
-    return func.HttpResponse("ok?")
+        return func.HttpResponse(json.dumps(json_msg))
