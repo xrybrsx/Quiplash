@@ -27,7 +27,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         container = connectToContainer('quiplashDB', 'prompts')
         for p in players:
             if p.isnumeric():
-                for items in container.query_items(query='SELECT * FROM prompts p WHERE p.username="{}"'.format(
+                for items in container.query_items(query='SELECT p.id, p.text, p.username FROM prompts p WHERE p.username="{}"'.format(
                         p),
                         enable_cross_partition_query=True):
                     prompts.append(items)

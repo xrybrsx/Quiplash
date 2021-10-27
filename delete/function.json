@@ -9,7 +9,8 @@
       "methods": [
         "get",
         "post"
-      ]
+      ],
+      "route": "prompt/delete"
     },
     {
       "type": "http",
