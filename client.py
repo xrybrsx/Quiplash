@@ -32,8 +32,7 @@ def authorize(username, password):
     if len(player) > 0:
         tmp = json.dumps(player[0])
         a = json.loads(tmp)
-        if a["password"] == password:
-            return True
+        return a["password"] == password
     else:
         return False
 
@@ -54,7 +53,7 @@ def update_user(username, add_games, add_score):
     if len(player) > 0:
         tmp = json.dumps(player[0])
         a = json.loads(tmp)
-        a["agames_played"] = a["games_played"] + add_games
+        a["games_played"] = a["games_played"] + add_games
         a["total_score"] = a["total_score"] + add_score
         container = connectToContainer('quiplashDB', 'players')
         container.upsert_item(a)

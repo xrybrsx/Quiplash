@@ -30,7 +30,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         result = []
         for i in random_ids:
             result.append(i)
-        return func.HttpResponse(json.dumps(result))
+        return func.HttpResponse(json.dumps(result, separators=(',', ':')))
     else:
         return func.HttpResponse(
             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",

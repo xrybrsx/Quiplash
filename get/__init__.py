@@ -14,7 +14,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         except ValueError:
             pass
         else:
-            name = req_body.get('players')
+            players = req_body.get('players')
 
     container = connectToContainer('quiplashDB', 'prompts')
 

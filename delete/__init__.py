@@ -13,13 +13,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     username = req.params.get('username')
     password = req.params.get('password')
 
-    if not username:
+    if (not username):
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
             username = req_body.get('username')
+            password = req_body.get('password')
+            id = req_body.get('id')
 
     ids = []
     if id:

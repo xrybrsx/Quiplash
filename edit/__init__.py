@@ -13,13 +13,17 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     text = req.params.get('text')
     username = req.params.get('username')
     password = req.params.get('password')
-    if not username:
+
+    if (not username) or (not password) or (not id) or (not text):
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
             username = req_body.get('username')
+            password = req_body.get('password')
+            text = req_body.get('text')
+            id = req_body.get('id')
 
     ids = []
     if id:
@@ -44,6 +48,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(json.dumps(json_msg))
     elif(len(ids) <= 0):
         json_msg = {"result": False, "msg": "prompt id does not exist"}
+        return func.HttpResponse(json.dumps(json_msg))
+    elif json.loads(json.dumps(ids[0]))["text"] == text:
+        json_msg = {"result": False,
+                    "msg":  "user already has a prompt with the same text"}
         return func.HttpResponse(json.dumps(json_msg))
     else:
         tmp = json.dumps(ids[0])

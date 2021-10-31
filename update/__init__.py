@@ -15,13 +15,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     player = []
 
-    if (not username):
+    if (not username) or (not password):
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
             username = req_body.get('username')
+            password = req_body.get('password')
+    if (not add_games) or (not add_score):
+        try:
+            req_body = req.get_json()
+        except ValueError:
+            pass
+        else:
+            add_games = req_body.get('add_to_games_played')
+            add_score = req_body.get('add_to_score')
     if not add_games:
         add_games = 0
     else:
@@ -49,12 +58,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         json_msg = {"result": False,
                     "msg": "Attempt to set negative score/games_played"}
         return func.HttpResponse(json.dumps(json_msg))
-    elif not authorize(username, password):
-        json_msg = {"result": False, "msg": "wrong password"}
-        return func.HttpResponse(json.dumps(json_msg))
-    else:
-        update_user(username, add_score, add_games)
+    elif authorize(username, password):
         json_msg = {"result": True,
                     "msg": "OK"}
+        update_user(username, add_games, add_score)
+        return func.HttpResponse(json.dumps(json_msg), status_code=200)
+    else:
+        json_msg = {"result": False, "msg": "wrong password"}
 
-        return func.HttpResponse(json.dumps(json_msg))
+        return func.HttpResponse(json.dumps(json_msg), status_code=400)
